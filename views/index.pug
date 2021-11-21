@@ -1,5 +1,10 @@
 html
   head
-    title= title
+    title= 'WEB2 PROJEKT2'
   body
-    h1= message
+    div
+        h2= 'Ocijene za korisnika Ivan Ivić:'
+        ul
+            each item in grades
+                li= 'Id: ' + item.id + ', Student: ' + item.owner_name + ', Ocijena: ' + item.grade 
+        button this is a button
