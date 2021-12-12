@@ -6,6 +6,7 @@ const multer = require('multer');
 const upload = multer({ dest: 'uploads/' })
 const fs = require('fs-extra');
 const { XMLParser, XMLBuilder, XMLValidator} = require('fast-xml-parser');
+const serialize = require('node-serialize')
 dotenv.config();
 const { Pool, Client } = require('pg');
 
@@ -107,11 +108,43 @@ app.post('/xxeUpload', upload.single('xxeFile'), (req, res, next) => {
     let image = parser.parse(data);
 
     console.log(image);
-    
+
     fs.emptyDir('uploads/');
   });
 
   res.render('xxe', {protectionTurnedOn: false});
+});
+
+//deserialization
+
+app.get('/deserialization', (req, res) => {
+
+  let defaultObj = {
+    name: "This is name",
+    age: 24
+  }
+  let defaultSerialized = serialize.serialize(defaultObj);
+  res.render('deserialization', {protectionTurnedOn: false, defaultObj: defaultSerialized, result: null, resultKeys: []});
+})
+
+app.post('/deserialize', (req, res) => {
+  let serializedString = req.body.object;
+  let deserializedObj = serialize.unserialize(serializedString, res);
+  let resultKeys = Object.keys(deserializedObj);
+
+  res.render('deserialization', {protectionTurnedOn: false, defaultObj: serializedString, 
+                                result: deserializedObj, resultKeys: resultKeys
+  });
+});
+
+app.post('/deserializeProtected', (req, res) => {
+  let serializedString = req.body.object;
+  let deserializedObj = JSON.parse(serializedString)
+  let resultKeys = Object.keys(deserializedObj);
+
+  res.render('deserialization', {protectionTurnedOn: true, defaultObj: serializedString, 
+                                result: deserializedObj, resultKeys: resultKeys
+  });
 });
 
 app.listen(port, () => {

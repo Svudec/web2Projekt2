@@ -1,0 +1,32 @@
+html
+  head
+    title= 'WEB2 PROJEKT2'
+    link(rel="stylesheet" href="css/myStyle.css")
+  body
+    div
+      h1= 'Nesigurna deserijalizacija'
+      h2= 'Unesi objekt'
+      if protectionTurnedOn 
+        h5.inline(id='protectionStatus')= 'Zaštita protiv nesigurne deserijalizacije: UKLJUČENA'
+        button.inline(onclick="deserializationProtectionOff()" id="protectionStatusButton")= 'ISKLJUČI' 
+      else
+        h5.inline(id='protectionStatus')= 'Zaštita protiv nesigurne deserijalizacije: ISKLJUČENA'
+        button.inline.mb(onclick="deserializationProtectionOn()" id="protectionStatusButton")= 'UKLJUČI'
+
+      form(action=protectionTurnedOn ? "/deserializeProtected" : "/deserialize" method="post" id="deserializeForm") 
+        textarea.mb(form="deserializeForm", id="object", name="object")= defaultObj
+        br
+        input(type="submit" value='OK')
+
+      button.mb(onclick="deserializeExploit()")= 'Ubaci string za exploit'
+    
+    if result
+      div.mb
+        h4= 'Server deserijalizirao objekt:'
+        each key in resultKeys 
+            div= key + ': ' + result[key]
+        
+    div
+      a(href="/")
+        button= 'POČETNA' 
+  script(src="js/myFunctions.js")
