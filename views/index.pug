@@ -1,10 +1,20 @@
 html
   head
     title= 'WEB2 PROJEKT2'
+    link(rel="stylesheet", href="css/myStyle.css")
   body
     div
-        h2= 'Ocijene za korisnika Ivan Ivić:'
+      form(action="/filterGrades", method="post") 
+        h2= 'Ocjene za korisnika Ivan Ivić'
+        h4.inline= 'Filter - Prikaži samo ocjene veće od: '
+        input.inline(type="text", id="borderGrade", name="borderGrade", value=gradeBorder)
+        input.inline(type="submit", value='OK')
+    div
+      button.inline(onclick="sqlInjectionTautology()")= 'Tautologija'
+      button.inline(onclick="sqlInjectionUnion()")= 'Upit UNION'
+    div
         ul
-            each item in grades
-                li= 'Id: ' + item.id + ', Student: ' + item.owner_name + ', Ocijena: ' + item.grade 
-        button this is a button
+          each item in grades
+            li= 'Id: ' + item.id + ', Student: ' + item.owner_name + ', Ocijena: ' + item.grade + ' - ' + item.grade_name
+  script(src="js/myFunctions.js")
+    
