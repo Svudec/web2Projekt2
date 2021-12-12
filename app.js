@@ -17,19 +17,7 @@ const port = 3000;
 app.set('view engine', 'pug');
 
 app.get('/', (req, res) => {
-
-    pool.query('SELECT * FROM grades WHERE owner_id=1', (err, resDb) => {
-        if (err) {
-          throw err;
-
-        } else {
-          console.log(resDb.rows)
-          let grades = resDb.rows;
-
-          res.render('index', 
-          { grades: grades, gradeBorder: 0, protectionTurnedOn: false});
-        }
-      });
+  res.render('index');
 });
 
 app.post('/filterGradesProtected', (req, res) => {
@@ -55,9 +43,24 @@ app.post('/filterGradesProtected', (req, res) => {
       console.log(resDb.rows)
       let grades = resDb.rows;
 
-      res.render('index', { grades: grades, gradeBorder: border, protectionTurnedOn: true});
+      res.render('sql-injection', { grades: grades, gradeBorder: border, protectionTurnedOn: true});
     }
   });
+});
+
+app.get('/filterGrades', (req, res) => {
+
+  pool.query('SELECT * FROM grades WHERE owner_id=1', (err, resDb) => {
+      if (err) {
+        throw err;
+
+      } else {
+        console.log(resDb.rows)
+        let grades = resDb.rows;
+
+        res.render('sql-injection', { grades: grades, gradeBorder: 0, protectionTurnedOn: false});
+      }
+    });
 });
 
 app.post('/filterGrades', (req, res) => {
@@ -72,7 +75,7 @@ app.post('/filterGrades', (req, res) => {
       console.log(resDb.rows)
       let grades = resDb.rows;
 
-      res.render('index', { grades: grades, gradeBorder: border, protectionTurnedOn: false});
+      res.render('sql-injection', { grades: grades, gradeBorder: border, protectionTurnedOn: false});
     }
   });
 });
