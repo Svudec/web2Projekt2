@@ -14,7 +14,7 @@ html
         button.inline.mb(onclick="xxeProtectionOn()" id="protectionStatusButton")= 'UKLJUČI'
 
       form.mb(action=protectionTurnedOn ? "/xxeUploadProtected" : "/xxeUpload", method="post", id="xxeUpload", enctype="multipart/form-data") 
-        input.inline(type="file" id="xxeFile" name="xxeFile", accept="text/xml")
+        input.inline(type="file" id="xxeFile" name="xxeFile", accept=".svg")
         input.inline(type="submit" value='OK')
     div
       a(href="/")

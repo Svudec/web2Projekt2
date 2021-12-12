@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/' })
 const fs = require('fs-extra');
+const { XMLParser, XMLBuilder, XMLValidator} = require('fast-xml-parser');
 dotenv.config();
 const { Pool, Client } = require('pg');
 
@@ -89,13 +90,28 @@ app.post('/filterGrades', (req, res) => {
 //XXE
 
 app.get('/xxe', (req, res) => {
-  res.render('xxe', {protectionTurnedOn: false})
+  res.render('xxe', {protectionTurnedOn: false});
 });
 
 app.post('/xxeUpload', upload.single('xxeFile'), (req, res, next) => {
   console.log(req.file);
+  const options = {
+    processEntities: true, 
+    parseAttributeValue: true, 
+    parseTagValue: true, 
+    ignoreAttributes: false,
+  };
 
-  fs.emptyDir('/uploads');
+  const parser = new XMLParser(options);
+  fs.readFile(req.file.path, (err, data) => {
+    let image = parser.parse(data);
+
+    console.log(image);
+    
+    fs.emptyDir('uploads/');
+  });
+
+  res.render('xxe', {protectionTurnedOn: false});
 });
 
 app.listen(port, () => {
