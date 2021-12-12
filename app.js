@@ -16,7 +16,7 @@ app.use(express.static('public'));
 
 //Pool uses env for database connection settings
 const connectionString = process.env.DATABASE_URL;
-if(connectionString){connectionString += '?sslmode=require'};
+if(connectionString){connectionString = connectionString + '?sslmode=require'};
 const pool = connectionString ? new Pool({connectionString}) : new Pool();
 
 const port = process.env.PORT || 3000;
