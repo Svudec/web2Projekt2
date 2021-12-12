@@ -15,7 +15,8 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 
 //Pool uses env for database connection settings
-const pool = new Pool()
+const connectionString = process.env.DATABASE_URL;
+const pool = connectionString ? new Pool({connectionString}) : new Pool();
 
 const port = process.env.PORT || 3000;
 
