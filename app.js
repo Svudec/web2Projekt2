@@ -26,9 +26,38 @@ app.get('/', (req, res) => {
           console.log(resDb.rows)
           let grades = resDb.rows;
 
-          res.render('index', { grades: grades, gradeBorder: 0});
+          res.render('index', 
+          { grades: grades, gradeBorder: 0, protectionTurnedOn: false});
         }
       });
+});
+
+app.post('/filterGradesProtected', (req, res) => {
+
+  let border = req.body.borderGrade ? req.body.borderGrade : 0;
+  let whiteList = ['1', '2', '3', '4', '5'];
+  let validatedBorder = 0;
+
+  border = border.toString();
+  for (let i = 0; i < border.length; i++) {
+    if(whiteList.includes(border.charAt(i))){
+      validatedBorder = border.charAt(i);
+      break
+    }
+  }
+
+  pool.query('SELECT * FROM grades WHERE owner_id=1 AND grade > ' + validatedBorder, (err, resDb) => {
+    if (err) {
+      console.log(err);
+      res.redirect("/")
+
+    } else {
+      console.log(resDb.rows)
+      let grades = resDb.rows;
+
+      res.render('index', { grades: grades, gradeBorder: border, protectionTurnedOn: true});
+    }
+  });
 });
 
 app.post('/filterGrades', (req, res) => {
@@ -36,13 +65,14 @@ app.post('/filterGrades', (req, res) => {
   let border = req.body.borderGrade ? req.body.borderGrade : 0;
   pool.query('SELECT * FROM grades WHERE owner_id=1 AND grade > ' + border, (err, resDb) => {
     if (err) {
-      throw err;
+      console.log(err);
+      res.redirect("/")
 
     } else {
       console.log(resDb.rows)
       let grades = resDb.rows;
 
-      res.render('index', { grades: grades, gradeBorder: border});
+      res.render('index', { grades: grades, gradeBorder: border, protectionTurnedOn: false});
     }
   });
 });
