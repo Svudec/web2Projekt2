@@ -17,7 +17,7 @@ app.use(express.static('public'));
 //Pool uses env for database connection settings
 const pool = new Pool()
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 app.set('view engine', 'pug');
 
@@ -148,5 +148,5 @@ app.post('/deserializeProtected', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`App running at http://localhost:${port}`)
+  process.env.PORT ? console.log(`Server running at ${process.env.APP_URL}`) : console.log(`App running at http://localhost:${port}`)
 });
