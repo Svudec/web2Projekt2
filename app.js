@@ -69,7 +69,7 @@ app.post('/filterGrades', (req, res) => {
   pool.query('SELECT * FROM grades WHERE owner_id=1 AND grade > ' + border, (err, resDb) => {
     if (err) {
       console.log(err);
-      res.redirect("/")
+      res.redirect("/filterGrades")
 
     } else {
       console.log(resDb.rows)

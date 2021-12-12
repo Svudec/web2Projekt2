@@ -11,15 +11,16 @@ html
         button.inline(onclick="sqlInjectionProtectionOff()" id="protectionStatusButton")= 'ISKLJUČI' 
       else
         h5.inline(id='protectionStatus')= 'Zaštita protiv SQL umetanja: ISKLJUČENA'
-        button.inline(onclick="sqlInjectionProtectionOn()" id="protectionStatusButton")= 'UKLJUČI' 
+        button.inline(onclick="sqlInjectionProtectionOn()" id="protectionStatusButton")= 'UKLJUČI'
+
+      div
+      button.inline(onclick="sqlInjectionTautology()")= 'Tautologija'
+      button.inline(onclick="sqlInjectionUnion()")= 'Upit UNION'
 
       form(action=protectionTurnedOn ? "filterGradesProtected" : "/filterGrades" method="post" id="filterGradesForm") 
         h4.inline= 'Filter - Prikaži samo ocjene veće od: '
         input.inline(type="text" id="borderGrade" name="borderGrade", value=gradeBorder)
         input.inline(type="submit" value='OK')
-    div
-      button.inline(onclick="sqlInjectionTautology()")= 'Tautologija'
-      button.inline(onclick="sqlInjectionUnion()")= 'Upit UNION'
     div
       ul
         each item in grades

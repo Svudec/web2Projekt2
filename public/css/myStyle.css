@@ -10,9 +10,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    text-align: center;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: center;
 }
 
 .xlarge-font{
     font-size: x-large;
+}
+
+.mb{
+    margin-bottom: 2rem;
 }
