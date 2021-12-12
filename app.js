@@ -4,6 +4,7 @@ const app = express();
 const dotenv = require('dotenv');
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/' })
+const fs = require('fs-extra');
 dotenv.config();
 const { Pool, Client } = require('pg');
 
@@ -93,6 +94,8 @@ app.get('/xxe', (req, res) => {
 
 app.post('/xxeUpload', upload.single('xxeFile'), (req, res, next) => {
   console.log(req.file);
+
+  fs.emptyDir('/uploads');
 });
 
 app.listen(port, () => {
