@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require("body-parser");
 const app = express();
 const dotenv = require('dotenv');
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' })
 dotenv.config();
 const { Pool, Client } = require('pg');
 
@@ -16,9 +18,12 @@ const port = 3000;
 
 app.set('view engine', 'pug');
 
+//index page
 app.get('/', (req, res) => {
   res.render('index');
 });
+
+//SQL injection
 
 app.post('/filterGradesProtected', (req, res) => {
 
@@ -78,6 +83,16 @@ app.post('/filterGrades', (req, res) => {
       res.render('sql-injection', { grades: grades, gradeBorder: border, protectionTurnedOn: false});
     }
   });
+});
+
+//XXE
+
+app.get('/xxe', (req, res) => {
+  res.render('xxe', {protectionTurnedOn: false})
+});
+
+app.post('/xxeUpload', upload.single('xxeFile'), (req, res, next) => {
+  console.log(req.file);
 });
 
 app.listen(port, () => {

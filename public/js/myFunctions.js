@@ -21,3 +21,19 @@ function sqlInjectionProtectionOff(){
     document.getElementById("protectionStatusButton").innerText="UKLJUČI"
     document.getElementById("protectionStatusButton").onclick=sqlInjectionProtectionOn
 }
+
+function xxeProtectionOn(){
+    //document.getElementById("filterGradesForm").action="/filterGradesProtected"
+    document.getElementById("protectionStatus").innerText="Zaštita protiv XXE: UKLJUČENA"
+
+    document.getElementById("protectionStatusButton").innerText="ISKLJUČI"
+    document.getElementById("protectionStatusButton").onclick=xxeProtectionOff
+}
+
+function xxeProtectionOff(){
+    //document.getElementById("filterGradesForm").action="/filterGrades"
+    document.getElementById("protectionStatus").innerText="Zaštita protiv XXE: ISKLJUČENA"
+
+    document.getElementById("protectionStatusButton").innerText="UKLJUČI"
+    document.getElementById("protectionStatusButton").onclick=xxeProtectionOn
+}

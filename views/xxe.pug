@@ -1,0 +1,22 @@
+html
+  head
+    title= 'WEB2 PROJEKT2'
+    link(rel="stylesheet" href="css/myStyle.css")
+  body
+    div
+      h1= 'Vanjski XML entiteti'
+      h2= 'Učitaj sliku'
+      if protectionTurnedOn 
+        h5.inline(id='protectionStatus')= 'Zaštita protiv XXE: UKLJUČENA'
+        button.inline(onclick="xxeProtectionOff()" id="protectionStatusButton")= 'ISKLJUČI' 
+      else
+        h5.inline(id='protectionStatus')= 'Zaštita protiv XXE: ISKLJUČENA'
+        button.inline.mb(onclick="xxeProtectionOn()" id="protectionStatusButton")= 'UKLJUČI'
+
+      form.mb(action=protectionTurnedOn ? "/xxeUploadProtected" : "/xxeUpload", method="post", id="xxeUpload", enctype="multipart/form-data") 
+        input.inline(type="file" id="xxeFile" name="xxeFile", accept="text/xml")
+        input.inline(type="submit" value='OK')
+    div
+      a(href="/")
+        button= 'POČETNA' 
+  script(src="js/myFunctions.js")
